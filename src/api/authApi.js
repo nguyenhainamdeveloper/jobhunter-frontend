@@ -11,3 +11,7 @@ export const getAccountApi = () => {
 export const logoutApi = () => {
     return axiosClient.post('/api/v1/auth/logout')
 }
+
+export const registerApi = (data) => {
+    return axiosClient.post('/api/v1/auth/register', data)
+}

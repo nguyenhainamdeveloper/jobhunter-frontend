@@ -5,6 +5,7 @@ import ProtectedRoute from './ProtectedRoute'
 
 import HomePage from '../pages/public/HomePage'
 import LoginPage from '../pages/auth/LoginPage'
+import RegisterPage from '../pages/auth/RegisterPage'
 import DashboardPage from '../pages/dashboard/DashboardPage'
 
 function AppRoutes() {
@@ -24,6 +25,15 @@ function AppRoutes() {
                 element={
                     <PublicLayout>
                         <LoginPage />
+                    </PublicLayout>
+                }
+            />
+
+            <Route
+                path="/register"
+                element={
+                    <PublicLayout>
+                        <RegisterPage />
                     </PublicLayout>
                 }
             />
