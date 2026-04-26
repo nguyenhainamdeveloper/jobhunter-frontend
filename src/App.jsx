@@ -2,6 +2,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
 import AppRoutes from './routes/AppRoutes'
 
+import { AuthProvider } from './components/context/AuthContext'
+
 function App() {
   return (
     <ConfigProvider
@@ -26,7 +28,9 @@ function App() {
       }}
     >
       <BrowserRouter>
-        <AppRoutes />
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
       </BrowserRouter>
     </ConfigProvider>
   )

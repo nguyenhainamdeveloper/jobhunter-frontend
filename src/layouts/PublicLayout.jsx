@@ -1,49 +1,43 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Layout, Menu, Dropdown, Avatar } from 'antd';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useAuth } from '../components/context/AuthContext';
 
 const { Header, Content, Footer } = Layout;
 
 function PublicLayout({ children }) {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+    const { user, isAuthenticated, logout } = useAuth();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        setUser(null);
+        logout();
         navigate('/');
     };
 
-    const userMenu = (
-        <Menu>
-            <Menu.Item key="dashboard" onClick={() => navigate('/dashboard')}>
-                Dashboard
-            </Menu.Item>
-            <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
-                Logout
-            </Menu.Item>
-        </Menu>
-    );
+    const dropdownItems = [
+        {
+            key: 'dashboard',
+            label: 'Dashboard',
+            onClick: () => navigate('/dashboard'),
+        },
+        {
+            key: 'logout',
+            label: 'Logout',
+            icon: <LogoutOutlined />,
+            onClick: handleLogout,
+        },
+    ];
 
     return (
         <Layout style={{ minHeight: '100vh', background: 'var(--bg-light)' }}>
-            <Header 
-                className="glass-effect" 
-                style={{ 
-                    position: 'sticky', 
-                    top: 0, 
-                    zIndex: 1000, 
-                    display: 'flex', 
-                    alignItems: 'center', 
+            <Header
+                className="glass-effect"
+                style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1000,
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '0 50px',
                     height: '80px',
@@ -54,9 +48,9 @@ function PublicLayout({ children }) {
                     <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
                         <h2 className="text-gradient" style={{ margin: 0, fontSize: '28px', fontWeight: 800 }}>JobHunter</h2>
                     </Link>
-                    <Menu 
-                        mode="horizontal" 
-                        defaultSelectedKeys={['1']} 
+                    <Menu
+                        mode="horizontal"
+                        defaultSelectedKeys={['1']}
                         style={{ borderBottom: 'none', background: 'transparent', width: '300px', fontSize: '16px', fontWeight: 500 }}
                         items={[
                             { key: '1', label: <Link to="/">Home</Link> },
@@ -66,8 +60,8 @@ function PublicLayout({ children }) {
                     />
                 </div>
                 <div>
-                    {user ? (
-                        <Dropdown overlay={userMenu} placement="bottomRight">
+                    {isAuthenticated && user ? (
+                        <Dropdown menu={{ items: dropdownItems }} placement="bottomRight">
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                                 <Avatar icon={<UserOutlined />} style={{ backgroundColor: 'var(--primary)' }} />
                                 <span style={{ fontWeight: 500 }}>{user.name || 'User'}</span>

@@ -1,9 +1,11 @@
 import { Button, Form, Input, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { loginApi } from '../../api/authApi'
+import { useAuth } from '../../components/context/AuthContext'
 
 function LoginPage() {
     const navigate = useNavigate()
+    const { login } = useAuth()
 
     const onFinish = async (values) => {
         try {
@@ -20,8 +22,8 @@ function LoginPage() {
                 return
             }
 
-            localStorage.setItem('token', token)
-            localStorage.setItem('user', JSON.stringify(user))
+            // Sử dụng hàm login từ Context để cập nhật state global và localStorage
+            login(user, token)
 
             message.success('Login success')
             navigate('/dashboard')
