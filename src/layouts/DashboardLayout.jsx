@@ -70,6 +70,12 @@ function DashboardLayout({ children }) {
                             label: 'Manage Jobs',
                             onClick: () => navigate('/dashboard/job')
                         },
+                        {
+                            key: '/dashboard/user',
+                            icon: <UserOutlined />,
+                            label: 'Manage Users',
+                            onClick: () => navigate('/dashboard/user')
+                        },
                     ]}
                 />
             </Sider>
