@@ -8,6 +8,7 @@ import LoginPage from '../pages/auth/LoginPage'
 import RegisterPage from '../pages/auth/RegisterPage'
 import DashboardPage from '../pages/dashboard/DashboardPage'
 import CompanyPage from '../pages/dashboard/CompanyPage'
+import JobPage from '../pages/dashboard/JobPage'
 
 function AppRoutes() {
     return (
@@ -56,6 +57,17 @@ function AppRoutes() {
                     <ProtectedRoute>
                         <DashboardLayout>
                             <CompanyPage />
+                        </DashboardLayout>
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/dashboard/job"
+                element={
+                    <ProtectedRoute>
+                        <DashboardLayout>
+                            <JobPage />
                         </DashboardLayout>
                     </ProtectedRoute>
                 }

@@ -5,6 +5,7 @@ import {
     MenuUnfoldOutlined,
     DashboardOutlined,
     BankOutlined,
+    AppstoreOutlined,
     UserOutlined,
     LogoutOutlined
 } from '@ant-design/icons';
@@ -62,6 +63,12 @@ function DashboardLayout({ children }) {
                             icon: <BankOutlined />,
                             label: 'Manage Companies',
                             onClick: () => navigate('/dashboard/company')
+                        },
+                        {
+                            key: '/dashboard/job',
+                            icon: <AppstoreOutlined />,
+                            label: 'Manage Jobs',
+                            onClick: () => navigate('/dashboard/job')
                         },
                     ]}
                 />
