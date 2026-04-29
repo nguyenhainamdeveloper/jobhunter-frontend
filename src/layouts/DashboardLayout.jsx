@@ -7,6 +7,7 @@ import {
     BankOutlined,
     AppstoreOutlined,
     UserOutlined,
+    FileTextOutlined,
     LogoutOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -75,6 +76,12 @@ function DashboardLayout({ children }) {
                             icon: <UserOutlined />,
                             label: 'Manage Users',
                             onClick: () => navigate('/dashboard/user')
+                        },
+                        {
+                            key: '/dashboard/resume',
+                            icon: <FileTextOutlined />,
+                            label: 'Manage Resumes',
+                            onClick: () => navigate('/dashboard/resume')
                         },
                     ]}
                 />

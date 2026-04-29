@@ -106,7 +106,8 @@ function UserPage() {
             const payload = {
                 ...values,
                 role: values.role ? { id: values.role } : null,
-                company: values.company ? { id: values.company } : null,
+                // Mẹo: Gửi id = 0 để Backend (findById) không tìm thấy -> tự động set thành null
+                company: values.company ? { id: values.company } : { id: 0 },
             };
 
             if (editingUser) {
@@ -139,8 +140,8 @@ function UserPage() {
                 return text ? <Tag color={color}>{text}</Tag> : 'N/A';
             }
         },
-        { title: 'Role', key: 'role', render: (_, record) => record.role?.name ? <Tag color="purple">{record.role.name}</Tag> : 'N/A' },
-        { title: 'Company', key: 'company', render: (_, record) => record.company?.name || 'N/A' },
+        { title: 'Role', key: 'role', render: (_, record) => record.role?.name ? <Tag color="purple">{record.role.name}</Tag> : <span style={{ color: '#ccc' }}>None</span> },
+        { title: 'Company', key: 'company', render: (_, record) => record.company?.name || <span style={{ color: '#ccc' }}>None</span> },
         {
             title: 'Action',
             key: 'action',
