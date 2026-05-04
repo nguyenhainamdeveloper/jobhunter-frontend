@@ -11,6 +11,7 @@ import CompanyPage from '../pages/dashboard/CompanyPage'
 import JobPage from '../pages/dashboard/JobPage'
 import UserPage from '../pages/dashboard/UserPage'
 import ResumePage from '../pages/dashboard/ResumePage'
+import SkillPage from '../pages/dashboard/SkillPage'
 
 function AppRoutes() {
     return (
@@ -92,6 +93,17 @@ function AppRoutes() {
                     <ProtectedRoute>
                         <DashboardLayout>
                             <ResumePage />
+                        </DashboardLayout>
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/dashboard/skill"
+                element={
+                    <ProtectedRoute>
+                        <DashboardLayout>
+                            <SkillPage />
                         </DashboardLayout>
                     </ProtectedRoute>
                 }

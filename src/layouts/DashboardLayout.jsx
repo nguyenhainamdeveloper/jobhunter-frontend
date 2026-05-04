@@ -8,6 +8,7 @@ import {
     AppstoreOutlined,
     UserOutlined,
     FileTextOutlined,
+    TagsOutlined,
     LogoutOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -82,6 +83,12 @@ function DashboardLayout({ children }) {
                             icon: <FileTextOutlined />,
                             label: 'Manage Resumes',
                             onClick: () => navigate('/dashboard/resume')
+                        },
+                        {
+                            key: '/dashboard/skill',
+                            icon: <TagsOutlined />,
+                            label: 'Manage Skills',
+                            onClick: () => navigate('/dashboard/skill')
                         },
                     ]}
                 />
