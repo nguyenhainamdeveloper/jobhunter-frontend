@@ -12,6 +12,9 @@ import JobPage from '../pages/dashboard/JobPage'
 import UserPage from '../pages/dashboard/UserPage'
 import ResumePage from '../pages/dashboard/ResumePage'
 import SkillPage from '../pages/dashboard/SkillPage'
+import PublicJobPage from '../pages/public/PublicJobPage'
+import PublicJobDetailPage from '../pages/public/PublicJobDetailPage'
+import PublicCompanyPage from '../pages/public/PublicCompanyPage'
 
 function AppRoutes() {
     return (
@@ -21,6 +24,33 @@ function AppRoutes() {
                 element={
                     <PublicLayout>
                         <HomePage />
+                    </PublicLayout>
+                }
+            />
+
+            <Route
+                path="/jobs"
+                element={
+                    <PublicLayout>
+                        <PublicJobPage />
+                    </PublicLayout>
+                }
+            />
+
+            <Route
+                path="/job/:id"
+                element={
+                    <PublicLayout>
+                        <PublicJobDetailPage />
+                    </PublicLayout>
+                }
+            />
+
+            <Route
+                path="/companies"
+                element={
+                    <PublicLayout>
+                        <PublicCompanyPage />
                     </PublicLayout>
                 }
             />

@@ -19,3 +19,8 @@ export const updateJobApi = (data) => {
 export const deleteJobApi = (id) => {
     return axiosClient.delete(`/api/v1/jobs/${id}`);
 };
+
+export const getJobByIdApi = (id) => {
+    return axiosClient.get(`/api/v1/jobs/${id}`);
+};
+

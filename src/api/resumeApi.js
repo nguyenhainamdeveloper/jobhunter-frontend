@@ -16,3 +16,8 @@ export const updateResumeStatusApi = (id, status) => {
 export const deleteResumeApi = (id) => {
     return axiosClient.delete(`/api/v1/resumes/${id}`);
 };
+
+export const createResumeApi = (data) => {
+    return axiosClient.post('/api/v1/resumes', data);
+};
+

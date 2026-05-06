@@ -1,23 +1,33 @@
-import { useEffect } from 'react';
-import { Button, Row, Col, Card } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Button, Row, Col, Card, Typography, Tag, Divider, Spin } from 'antd';
+import { SearchOutlined, EnvironmentOutlined, DollarOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import heroImg from '../../assets/hero.png';
-import axiosClient from '../../api/axiosClient';
+import { getJobsApi } from '../../api/jobApi';
+
+const { Title, Paragraph, Text } = Typography;
 
 function HomePage() {
     const navigate = useNavigate();
+    const [recentJobs, setRecentJobs] = useState([]);
+    const [loadingJobs, setLoadingJobs] = useState(false);
 
     useEffect(() => {
-        const testApi = async () => {
+        const fetchRecentJobs = async () => {
+            setLoadingJobs(true);
             try {
-                const res = await axiosClient.get('/api/v1/jobs');
-                console.log('API OK:', res);
+                // Fetch top 6 recent jobs
+                const res = await getJobsApi(1, 6);
+                if (res?.data?.data?.result) {
+                    setRecentJobs(res.data.data.result);
+                }
             } catch (error) {
-                console.error('API ERROR:', error);
+                console.error('Failed to fetch recent jobs:', error);
+            } finally {
+                setLoadingJobs(false);
             }
         };
-        testApi();
+        fetchRecentJobs();
     }, []);
 
     return (
@@ -60,6 +70,73 @@ function HomePage() {
                         />
                     </Col>
                 </Row>
+            </div>
+
+            {/* Featured Jobs Section */}
+            <div style={{ background: 'var(--bg-white)', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
+                        <div>
+                            <h2 style={{ fontSize: '36px', fontWeight: 700, margin: 0 }}>Featured Jobs</h2>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginTop: '8px', marginBottom: 0 }}>Discover the latest opportunities across top companies.</p>
+                        </div>
+                        <Button type="link" style={{ fontSize: '16px', fontWeight: 600 }} onClick={() => navigate('/jobs')}>
+                            View All Jobs &rarr;
+                        </Button>
+                    </div>
+
+                    {loadingJobs ? (
+                        <div style={{ textAlign: 'center', padding: '50px 0' }}>
+                            <Spin size="large" />
+                        </div>
+                    ) : (
+                        <Row gutter={[24, 24]}>
+                            {recentJobs.map(job => (
+                                <Col xs={24} md={12} lg={8} key={job.id}>
+                                    <Card 
+                                        hoverable
+                                        className="job-card"
+                                        style={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: '12px' }}
+                                        bodyStyle={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '24px' }}
+                                        onClick={() => navigate(`/job/${job.id}`)}
+                                    >
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                                            <Title level={4} style={{ margin: 0, fontSize: '18px', color: 'var(--primary)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                                {job.name}
+                                            </Title>
+                                        </div>
+                                        
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <Text strong style={{ fontSize: '16px' }}>{job.company?.name || 'Unknown Company'}</Text>
+                                        </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', color: 'var(--text-muted)' }}>
+                                                <DollarOutlined style={{ marginRight: '8px' }} />
+                                                <Text type="secondary">${job.salary?.toLocaleString()}</Text>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', color: 'var(--text-muted)' }}>
+                                                <EnvironmentOutlined style={{ marginRight: '8px' }} />
+                                                <Text type="secondary">{job.location}</Text>
+                                            </div>
+                                        </div>
+
+                                        <div style={{ marginTop: 'auto' }}>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                                {job.skills?.slice(0, 3).map(skill => (
+                                                    <Tag key={skill.id} color="blue">{skill.name}</Tag>
+                                                ))}
+                                                {job.skills?.length > 3 && (
+                                                    <Tag color="default">+{job.skills.length - 3}</Tag>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
+                    )}
+                </div>
             </div>
 
             {/* Featured Section */}
